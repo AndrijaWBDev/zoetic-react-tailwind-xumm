@@ -1,7 +1,7 @@
-import deployment from './deployment.json';
+// import deployment from './deployment.json';
 
 export const xummConfig = {
-    name: 'zoetic',
-    env: 'production',
-    AppId: 'yours',
+  name: "zoetic",
+  env: "production",
+  AppId: "yours",
 };
