@@ -712,7 +712,7 @@ export function App() {
       Account: identity?.sub,
       URI: convertStringToHex(tokenUrl),
       Flags: parseInt(flags),
-      TransferFee: parseInt(10),
+      TransferFee: parseInt("10"),
       NFTokenTaxon: 0, //Required, but if you have no use for it, set to zero.
     };
 
@@ -725,7 +725,6 @@ export function App() {
         const paymentPayload = {
           txjson: transactionBlob,
         };
-        alert("paymentPayload >>> " + paymentPayload.toString());
         handleTxPayloadNativeWS(xummSDK, paymentPayload);
       });
     }
