@@ -891,7 +891,7 @@ export function App() {
     const transactionBlob = {
       TransactionType: "NFTokenAcceptOffer",
       Account: identity?.sub || "",
-      SellOffer: tokenOfferIndex,
+      NFTokenSellOffer: tokenOfferIndex,
     };
     // Submit signed blob
 
@@ -916,7 +916,7 @@ export function App() {
     // const transactionBlob = {
     //   TransactionType: "NFTokenAcceptOffer",
     //   Account: identity?.sub || ",
-    //   BuyOffer: tokenOfferIndex,
+    //   NFTokenBuyOffer: tokenOfferIndex,
     // };
     // Submit signed blob --------------------------------------------------------
     // const tx = await client.submitAndWait(transactionBlob, { wallet });
