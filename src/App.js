@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Xumm } from "xumm";
-import { Client, convertStringToHex, getBalanceChanges } from "xrpl";
+import {
+  Client,
+  // convertStringToHex,
+  // getBalanceChanges
+} from "xrpl";
 import { xummConfig } from "./env";
 
 import imgLogo from "./assets/img/logo.jpeg";

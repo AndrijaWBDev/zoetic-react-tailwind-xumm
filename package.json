@@ -17,17 +17,17 @@
     "uuid": "^9.0.0",
     "web-vitals": "^2.1.4",
     "xrpl": "^2.8.1",
-    "xumm": "github:XRPL-Labs/Xumm-Universal-SDK#43eb21f43d683d748af55039753abb4fa62bcf2e",
+    "xumm": "^1.5.4",
     "xumm-js-pkce": "^1.0.0",
     "xumm-oauth2-pkce": "^2.5.5",
     "xumm-sdk": "^1.7.0",
     "xumm-xapp-sdk": "^1.4.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
     "serve-local": "bash ./scripts/create-deployment-json.sh local && cp ./environment/deployment.json ./src/. && npm run build && npm start",
     "deploy-prd": "bash ./scripts/create-deployment-json.sh prd && cp ./environment/deployment.json ./src/. && npm run build && bash ./scripts/deploy.sh prd"
   },
@@ -48,5 +48,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "process": "^0.11.10",
+    "react-app-rewired": "^2.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.1"
   }
 }
