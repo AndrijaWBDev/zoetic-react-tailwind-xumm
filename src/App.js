@@ -711,8 +711,8 @@ export function App() {
       TransactionType: "NFTokenMint",
       Account: identity?.sub,
       URI: convertStringToHex(tokenUrl),
-      Flags: parseInt(flags),
-      TransferFee: parseInt("10"),
+      Flags: 9,
+      TransferFee: 100,
       NFTokenTaxon: 0, //Required, but if you have no use for it, set to zero.
     };
 
