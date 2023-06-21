@@ -786,33 +786,6 @@ export function App() {
         handleTxPayloadNativeWS(xummSDK, paymentPayload);
       });
     }
-
-    // const client = await connectClient();
-    // console.log("***Sell Offers***");
-    // let nftSellOffers;
-    // try {
-    //   nftSellOffers = await client.request({
-    //     method: "nft_sell_offers",
-    //     tokenid: tokenId,
-    //   });
-    // } catch (err) {
-    //   console.log("No sell offers.");
-    // }
-    // console.log(JSON.stringify(nftSellOffers, null, 2));
-    // alert("sell offers >>>> " + JSON.stringify(nftSellOffers, null, 2));
-    // console.log("***Buy Offers***");
-    // let nftBuyOffers;
-    // try {
-    //   nftBuyOffers = await client.request({
-    //     method: "nft_buy_offers",
-    //     tokenid: tokenId,
-    //   });
-    // } catch (err) {
-    //   console.log("No buy offers.");
-    // }
-    // console.log(JSON.stringify(nftBuyOffers, null, 2));
-    // alert("buy offers >>>> " + JSON.stringify(nftSellOffers, null, 2));
-    // client.disconnect();
   };
 
   const createBuyOffer = async () => {
@@ -906,28 +879,30 @@ export function App() {
   const getOffers = async () => {
     const client = await connectClient();
 
-    // console.log("***Sell Offers***");
-    // let nftSellOffers;
-    // try {
-    //   nftSellOffers = await client.request({
-    //     method: "nft_sell_offers",
-    //     tokenid: tokenId,
-    //   });
-    // } catch (err) {
-    //   console.log("No sell offers.");
-    // }
-    // console.log(JSON.stringify(nftSellOffers, null, 2));
-    // console.log("***Buy Offers***");
-    // let nftBuyOffers;
-    // try {
-    //   nftBuyOffers = await client.request({
-    //     method: "nft_buy_offers",
-    //     tokenid: tokenId,
-    //   });
-    // } catch (err) {
-    //   console.log("No buy offers.");
-    // }
-    // console.log(JSON.stringify(nftBuyOffers, null, 2));
+    console.log("***Sell Offers***");
+    let nftSellOffers;
+    try {
+      nftSellOffers = await client.request({
+        method: "nft_sell_offers",
+        tokenid: tokenId,
+      });
+    } catch (err) {
+      console.log("No sell offers.");
+    }
+    console.log(JSON.stringify(nftSellOffers, null, 2));
+    alert("Sell offers >>>> " + JSON.stringify(nftSellOffers, null, 2));
+    console.log("***Buy Offers***");
+    let nftBuyOffers;
+    try {
+      nftBuyOffers = await client.request({
+        method: "nft_buy_offers",
+        tokenid: tokenId,
+      });
+    } catch (err) {
+      console.log("No buy offers.");
+    }
+    console.log(JSON.stringify(nftBuyOffers, null, 2));
+    alert("Buy offers >>> " + JSON.stringify(nftSellOffers, null, 2));
     client.disconnect();
   };
 
