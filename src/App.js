@@ -798,7 +798,7 @@ export function App() {
       TransactionType: "NFTokenCreateOffer",
       Account: identity?.sub || "",
       Owner: owner,
-      TokenID: tokenId,
+      NFTokenID: tokenId,
       Amount: amount,
       Flags: parseInt(flags),
     };
@@ -841,32 +841,6 @@ export function App() {
     //   TokenIDs: tokenIDs,
     // };
 
-    // // Submit signed blob --------------------------------------------------------
-    // const tx = await client.submitAndWait(transactionBlob, { wallet });
-
-    // console.log("***Sell Offers***");
-    // let nftSellOffers;
-    // try {
-    //   nftSellOffers = await client.request({
-    //     method: "nft_sell_offers",
-    //     tokenid: tokenId,
-    //   });
-    // } catch (err) {
-    //   console.log("No sell offers.");
-    // }
-    // console.log(JSON.stringify(nftSellOffers, null, 2));
-    // console.log("***Buy Offers***");
-    // let nftBuyOffers;
-    // try {
-    //   nftBuyOffers = await client.request({
-    //     method: "nft_buy_offers",
-    //     tokenid: tokenId,
-    //   });
-    // } catch (err) {
-    //   console.log("No buy offers.");
-    // }
-    // console.log(JSON.stringify(nftBuyOffers, null, 2));
-
     // // Check transaction results -------------------------------------------------
 
     // console.log(
@@ -889,7 +863,7 @@ export function App() {
     try {
       nftSellOffers = await client.request({
         method: "nft_sell_offers",
-        tokenid: tokenId,
+        NFTokenID: tokenId,
       });
     } catch (err) {
       console.log("No sell offers.");
@@ -901,7 +875,7 @@ export function App() {
     try {
       nftBuyOffers = await client.request({
         method: "nft_buy_offers",
-        tokenid: tokenId,
+        NFTokenID: tokenId,
       });
     } catch (err) {
       console.log("No buy offers.");
