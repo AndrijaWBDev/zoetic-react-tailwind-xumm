@@ -704,6 +704,14 @@ export function App() {
       });
   };
 
+  const getBalance = async () => {
+    const client = await connectClient();
+    const bal = await client.getXrpBalance(identity?.sub || "");
+    console.log(bal);
+    alert(JSON.stringify(bal));
+    client.disconnect();
+  };
+
   const mintToken = async () => {
     console.log("mintToken");
     setTxStatusMessage("Creating payload");
@@ -794,36 +802,30 @@ export function App() {
 
   const createBuyOffer = async () => {
     // // Prepare transaction -------------------------------------------------------
-    const transactionBlob = {
-      TransactionType: "NFTokenCreateOffer",
-      Account: identity?.sub || "",
-      Owner: owner,
-      NFTokenID: tokenId,
-      Amount: amount,
-      Flags: parseInt(flags),
-    };
-
-    if (!isValidXRPAddress(identity?.sub)) {
-      setError("Invalid connected address");
-      return;
-    } else {
-      setError("");
-      setTxStatusMessage("Creating payload");
-      xumm.then((xummSDK) => {
-        const paymentPayload = {
-          txjson: transactionBlob,
-        };
-        handleTxPayloadNativeWS(xummSDK, paymentPayload);
-      });
-    }
-
+    // const transactionBlob = {
+    //   TransactionType: "NFTokenCreateOffer",
+    //   Account: identity?.sub || "",
+    //   Owner: owner,
+    //   NFTokenID: tokenId,
+    //   Amount: amount,
+    //   Flags: parseInt(flags),
+    // };
+    // if (!isValidXRPAddress(identity?.sub)) {
+    //   setError("Invalid connected address");
+    //   return;
+    // } else {
+    //   setError("");
+    //   setTxStatusMessage("Creating payload");
+    //   xumm.then((xummSDK) => {
+    //     const paymentPayload = {
+    //       txjson: transactionBlob,
+    //     };
+    //     handleTxPayloadNativeWS(xummSDK, paymentPayload);
+    //   });
+    // }
     // console.log(
     //   "Transaction result:",
     //   JSON.stringify(tx.result.meta.TransactionResult, null, 2)
-    // );
-    // console.log(
-    //   "Balance changes:",
-    //   JSON.stringify(getBalanceChanges(tx.result.meta), null, 2)
     // );
   };
 
@@ -846,10 +848,6 @@ export function App() {
     // console.log(
     //   "Transaction result:",
     //   JSON.stringify(tx.result.meta.TransactionResult, null, 2)
-    // );
-    // console.log(
-    //   "Balance changes:",
-    //   JSON.stringify(getBalanceChanges(tx.result.meta), null, 2)
     // );
 
     client.disconnect();
@@ -931,10 +929,7 @@ export function App() {
     //   "Transaction result:",
     //   JSON.stringify(tx.result.meta.TransactionResult, null, 2)
     // );
-    // console.log(
-    //   "Balance changes:",
-    //   JSON.stringify(getBalanceChanges(tx.result.meta), null, 2)
-    // );
+
     client.disconnect();
   };
 
@@ -1103,6 +1098,10 @@ export function App() {
           </button>
           <button onClick={cancelOffer} className="px-3 py-2 bg-slate-700 m-5">
             Cancel Offer
+          </button>
+
+          <button onClick={getBalance} className="px-3 py-2 bg-slate-700 m-5">
+            XRP Balance
           </button>
 
           <table>
