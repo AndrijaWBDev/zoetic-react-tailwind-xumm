@@ -709,9 +709,10 @@ export function App() {
 
     const transactionBlob = {
       TransactionType: "NFTokenMint",
+      Account: identity?.sub,
       URI: convertStringToHex(tokenUrl),
       Flags: parseInt(flags),
-      TransferFee: parseInt(100000),
+      TransferFee: parseInt(10),
       NFTokenTaxon: 0, //Required, but if you have no use for it, set to zero.
     };
 
@@ -724,23 +725,24 @@ export function App() {
         const paymentPayload = {
           txjson: transactionBlob,
         };
+        alert("paymentPayload >>> " + paymentPayload.toString());
         handleTxPayloadNativeWS(xummSDK, paymentPayload);
       });
     }
 
-    const client = await connectClient();
-    const nfts = await client.request({
-      method: "account_nfts",
-      account: identity?.sub || "",
-    });
-    console.log(nfts);
+    // const client = await connectClient();
+    // const nfts = await client.request({
+    //   method: "account_nfts",
+    //   account: identity?.sub || "",
+    // });
+    // console.log(nfts);
     // // Check transaction results -------------------------------------------------
     // console.log("Transaction result:", tx.result.meta.TransactionResult);
     // console.log(
     //   "Balance changes:",
     //   JSON.stringify(getBalanceChanges(tx.result.meta), null, 2)
     // );
-    client.disconnect();
+    // client.disconnect();
   };
 
   const getTokens = async () => {
