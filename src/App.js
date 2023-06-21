@@ -539,7 +539,6 @@ export function App() {
   const handleOfferIndexChange = (event) => setOfferIndex(event.target.value);
   const handleOwnerChange = (event) => setOwner(event.target.value);
 
-  const [formState, setFormState] = useState({ destination: "" });
   const [runtime, setRuntime] = useState(null);
 
   /** state for the tx listening */
@@ -601,7 +600,6 @@ export function App() {
             setTxStatus(1);
             setTxStatusMessage(`Payment signed.`);
             setPaymentPayload(null);
-            setFormState({ destination: "" });
 
             // wait 5 seconds and then clear the message
             setTimeout(function () {
@@ -717,8 +715,8 @@ export function App() {
       TokenTaxon: 0, //Required, but if you have no use for it, set to zero.
     };
 
-    if (!isValidXRPAddress(formState.destination)) {
-      setError("Invalid destination address");
+    if (!isValidXRPAddress(identity?.sub)) {
+      setError("Invalid connected address");
       return;
     } else {
       setTxStatusMessage("Creating payload");
@@ -736,7 +734,6 @@ export function App() {
       account: identity?.sub || "",
     });
     console.log(nfts);
-    alert(nfts.toString());
     // // Check transaction results -------------------------------------------------
     // console.log("Transaction result:", tx.result.meta.TransactionResult);
     // console.log(
@@ -1128,6 +1125,28 @@ export function App() {
 
         <div>
           <h1>NFToken Tester</h1>
+          {error && (
+            <div className="w-full text-center text-2xl text-red-700 bg-red-200 italic p-2 rounded">
+              {error}
+            </div>
+          )}
+          <div className="flex flex-col justify-center w-full">
+            {txStatusMessage && txStatus === 1 ? (
+              <div className="w-full text-center text-2xl text-green-700 bg-green-200 italic p-2 rounded">
+                {txStatusMessage}
+              </div>
+            ) : (
+              <div className="w-full text-center text-2xl text-slate-300 italic p-2">
+                {txStatusMessage}
+              </div>
+            )}
+            {websocketMessage && (
+              <WebsocketMessageViewer message={websocketMessage} />
+            )}
+            {paymentPayload && (
+              <PaymentPayloadViewer payload={paymentPayload} />
+            )}
+          </div>
           <button onClick={mintToken} className="px-3 py-2 bg-slate-700 m-5">
             Mint Token
           </button>
