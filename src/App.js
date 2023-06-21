@@ -525,7 +525,7 @@ export function App() {
     "ipfs://bafybeigdyrzt5sfp7udm7hu76uh7y26nf4dfuylqabf3oclgtqy55fbzdi"
   );
   const [flags, setFlag] = useState(1);
-  const [tokenId, setTokenId] = useState(0);
+  const [tokenId, setTokenId] = useState("0");
   const [amount, setAmount] = useState(1000000);
   const [tokenOfferIndex, setOfferIndex] = useState(0);
   const [owner, setOwner] = useState(0);
@@ -747,7 +747,7 @@ export function App() {
     const transactionBlob = {
       TransactionType: "NFTokenBurn",
       Account: identity?.sub || "",
-      TokenID: tokenId,
+      NFTokenID: tokenId,
     };
 
     if (!isValidXRPAddress(identity?.sub)) {
