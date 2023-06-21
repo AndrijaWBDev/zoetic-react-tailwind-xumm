@@ -402,6 +402,7 @@ const WebsocketMessageViewer = ({ message, title = "Message" }) => {
 //       setError("Invalid destination address");
 //       return;
 //     } else {
+// setError("");
 //       setTxStatusMessage("Creating payload");
 //       xumm.then((xummSDK) => {
 //         const paymentPayload = {
@@ -720,6 +721,7 @@ export function App() {
       setError("Invalid connected address");
       return;
     } else {
+      setError("");
       setTxStatusMessage("Creating payload");
       xumm.then((xummSDK) => {
         const paymentPayload = {
@@ -754,6 +756,7 @@ export function App() {
       setError("Invalid connected address");
       return;
     } else {
+      setError("");
       setTxStatusMessage("Creating payload");
       xumm.then((xummSDK) => {
         const paymentPayload = {
@@ -778,6 +781,7 @@ export function App() {
       setError("Invalid connected address");
       return;
     } else {
+      setError("");
       setTxStatusMessage("Creating payload");
       xumm.then((xummSDK) => {
         const paymentPayload = {
@@ -803,6 +807,7 @@ export function App() {
       setError("Invalid connected address");
       return;
     } else {
+      setError("");
       setTxStatusMessage("Creating payload");
       xumm.then((xummSDK) => {
         const paymentPayload = {
@@ -920,6 +925,7 @@ export function App() {
       setError("Invalid connected address");
       return;
     } else {
+      setError("");
       setTxStatusMessage("Creating payload");
       xumm.then((xummSDK) => {
         const paymentPayload = {
