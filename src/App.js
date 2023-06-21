@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Xumm } from "xumm";
 import {
   Client,
-  // convertStringToHex,
+  convertStringToHex,
   // getBalanceChanges
 } from "xrpl";
 import { xummConfig } from "./env";
@@ -73,124 +73,124 @@ const xumm = make();
 /**
  * xumm link handling for external links must be handled by the app
  * sdk, so we need some way to pass the link to the app as well as
- * just dispay it as a link for webapp users.
+ * just display it as a link for webapp users.
  *
  * links is a list of objects with the following structure:
  * [{ 'title': 'title', 'url': 'url' }]
  *
  * @param {*} param0
  */
-const ExternalLinksViewer = ({
-  links,
-  xumm,
-  title = "Important Links",
-  showTitle = true,
-}) => {
-  const [runtime, setRuntime] = useState();
+// const ExternalLinksViewer = ({
+//   links,
+//   xumm,
+//   title = "Important Links",
+//   showTitle = true,
+// }) => {
+//   const [runtime, setRuntime] = useState();
 
-  useEffect(() => {
-    xumm.then((xummSDK) => {
-      setRuntime(xummSDK.runtime);
-    });
-  }, [xumm]);
+//   useEffect(() => {
+//     xumm.then((xummSDK) => {
+//       setRuntime(xummSDK.runtime);
+//     });
+//   }, [xumm]);
 
-  /**
-   * this handles the xApp and webapp cases for external links
-   *
-   * @param {*} url
-   */
-  let handleClickedLink = (url) => {
-    if (runtime.xapp) {
-      console.log("clicked link in xApp", url);
+//   /**
+//    * this handles the xApp and webapp cases for external links
+//    *
+//    * @param {*} url
+//    */
+//   let handleClickedLink = (url) => {
+//     if (runtime.xapp) {
+//       console.log("clicked link in xApp", url);
 
-      xumm.then((xummSDK) => {
-        xummSDK.xapp
-          .openBrowser({ url: url })
-          .then((d) => {
-            // d (returned value) can be Error or return data:
-            console.log(
-              "openBrowser response:",
-              d instanceof Error ? d.message : d
-            );
-          })
-          .catch((e) => console.log("Error:", e.message));
-      });
-    } else if (runtime.browser && !runtime.xapp) {
-      console.log("clicked link in Web browser", url);
-      window.open(url, "_blank");
-    }
-  };
+//       xumm.then((xummSDK) => {
+//         xummSDK.xapp
+//           .openBrowser({ url: url })
+//           .then((d) => {
+//             // d (returned value) can be Error or return data:
+//             console.log(
+//               "openBrowser response:",
+//               d instanceof Error ? d.message : d
+//             );
+//           })
+//           .catch((e) => console.log("Error:", e.message));
+//       });
+//     } else if (runtime.browser && !runtime.xapp) {
+//       console.log("clicked link in Web browser", url);
+//       window.open(url, "_blank");
+//     }
+//   };
 
-  let renderUrls = (links) => {
-    return links.map((key, index) => (
-      <div
-        className="w-32 h-8 text-yellow-200
-          bg-slate-900 m-1 rounded p-1 break-words"
-        key={index}
-      >
-        <div
-          onClick={() => handleClickedLink(key.url)}
-          className="text-xs font-bold text-blue-300 
-              hover:underline cursor-pointer"
-        >
-          {key.title}
-        </div>
-      </div>
-    ));
-  };
+//   let renderUrls = (links) => {
+//     return links.map((key, index) => (
+//       <div
+//         className="w-32 h-8 text-yellow-200
+//           bg-slate-900 m-1 rounded p-1 break-words"
+//         key={index}
+//       >
+//         <div
+//           onClick={() => handleClickedLink(key.url)}
+//           className="text-xs font-bold text-blue-300
+//               hover:underline cursor-pointer"
+//         >
+//           {key.title}
+//         </div>
+//       </div>
+//     ));
+//   };
 
-  return (
-    <div className="w-full flex flex-col">
-      {showTitle && <div className="text-2xl text-white">{title}</div>}
-      <div className="flex flex-wrap">{renderUrls(links)}</div>
-    </div>
-  );
-};
+//   return (
+//     <div className="w-full flex flex-col">
+//       {showTitle && <div className="text-2xl text-white">{title}</div>}
+//       <div className="flex flex-wrap">{renderUrls(links)}</div>
+//     </div>
+//   );
+// };
 
-const LinkedFooter = ({ xumm }) => {
-  const externalLinks = [
-    { title: "zoetic Home", url: "https://zoetic.xurlpay.org/" },
-    {
-      title: "xApp Deeplink",
-      url: "https://xumm.app/detect/xapp:sandbox.a8f76d357322",
-    },
-    { title: "Github", url: "https://github.com/claytantor/zoetic-xumm" },
-    { title: "Terms of Service", url: "https://zoetic.xurlpay.org/tos.html" },
-    { title: "Privacy Policy", url: "https://zoetic.xurlpay.org/privacy.html" },
-    {
-      title: "Xumm-Universal-SDK",
-      url: "https://github.com/XRPL-Labs/Xumm-Universal-SDK",
-    },
-    {
-      title: "Tailwinds CSS Docs",
-      url: "https://tailwindcss.com/docs/installation",
-    },
-    {
-      title: "React Docs",
-      url: "https://reactjs.org/docs/getting-started.html",
-    },
-  ];
+// const LinkedFooter = ({ xumm }) => {
+//   const externalLinks = [
+//     { title: "zoetic Home", url: "https://zoetic.xurlpay.org/" },
+//     {
+//       title: "xApp Deeplink",
+//       url: "https://xumm.app/detect/xapp:sandbox.a8f76d357322",
+//     },
+//     { title: "Github", url: "https://github.com/claytantor/zoetic-xumm" },
+//     { title: "Terms of Service", url: "https://zoetic.xurlpay.org/tos.html" },
+//     { title: "Privacy Policy", url: "https://zoetic.xurlpay.org/privacy.html" },
+//     {
+//       title: "Xumm-Universal-SDK",
+//       url: "https://github.com/XRPL-Labs/Xumm-Universal-SDK",
+//     },
+//     {
+//       title: "Tailwinds CSS Docs",
+//       url: "https://tailwindcss.com/docs/installation",
+//     },
+//     {
+//       title: "React Docs",
+//       url: "https://reactjs.org/docs/getting-started.html",
+//     },
+//   ];
 
-  return (
-    <div className="flex flex-col">
-      <div className="flex flex-row items-center mb-2">
-        <img src={imgLogo} alt="logo" className="w-6 h-6 rounded-full mt-1" />
-        <span className="ml-2 text-3xl">zoetic</span>
-      </div>
-      <ExternalLinksViewer
-        links={externalLinks}
-        xumm={xumm}
-        showTitle={false}
-      />
-      <HashedInfoViewer
-        hashedInfo={deployment}
-        title="Deployment Info"
-        showTitle={false}
-      />
-      {/* <div className="flex flex-row items-center mb-2 justify-start">Use zoetic to make donations to this wallet: <span className="text-pink-500 ml-2 font-mono">rrnR8qAP8tczCbgD1gqt4RgcwTZPcSXyn2</span></div> */}
-    </div>
-  );
-};
+//   return (
+//     <div className="flex flex-col">
+//       <div className="flex flex-row items-center mb-2">
+//         <img src={imgLogo} alt="logo" className="w-6 h-6 rounded-full mt-1" />
+//         <span className="ml-2 text-3xl">zoetic</span>
+//       </div>
+//       <ExternalLinksViewer
+//         links={externalLinks}
+//         xumm={xumm}
+//         showTitle={false}
+//       />
+//       <HashedInfoViewer
+//         hashedInfo={deployment}
+//         title="Deployment Info"
+//         showTitle={false}
+//       />
+//       {/* <div className="flex flex-row items-center mb-2 justify-start">Use zoetic to make donations to this wallet: <span className="text-pink-500 ml-2 font-mono">rrnR8qAP8tczCbgD1gqt4RgcwTZPcSXyn2</span></div> */}
+//     </div>
+//   );
+// };
 
 /**
  * simple component to display of hashed data
@@ -517,7 +517,6 @@ const PaymentForm = ({ xumm, fromAccount }) => {
 
 export function App() {
   const [isAuthorized, setIsAuthorized] = useState(false);
-  const [runtime, setRuntime] = useState(null);
   const [xummSDK, setXummSDK] = useState(null);
   const [identity, setIdentity] = useState(null);
   const [clientType, setClientType] = useState(null);
@@ -540,6 +539,94 @@ export function App() {
   const handleAmountChange = (event) => setAmount(event.target.value);
   const handleOfferIndexChange = (event) => setOfferIndex(event.target.value);
   const handleOwnerChange = (event) => setOwner(event.target.value);
+
+  const [formState, setFormState] = useState({ destination: "" });
+  const [runtime, setRuntime] = useState(null);
+
+  /** state for the tx listening */
+  const [websocketMessage, setWebsocketMessage] = useState(null);
+  const [paymentPayload, setPaymentPayload] = useState(null);
+  const [txStatus, setTxStatus] = useState(0);
+  const [txStatusMessage, setTxStatusMessage] = useState(null);
+  const [error, setError] = useState(null);
+
+  /**
+   * detect if this is a mobile device
+   */
+  useEffect(() => {
+    // get the runtime so we can launch tx listening
+    // for xapp
+    xumm.then((xummSDK) => {
+      setRuntime(xummSDK.runtime);
+    });
+  }, []);
+
+  const isValidXRPAddress = (address) => {
+    // Check if the address is a string and 34 characters long
+    if (typeof address !== "string" || address.length !== 34) {
+      return false;
+    }
+
+    // Check if the address starts with the letter "r"
+    if (address[0] !== "r") {
+      return false;
+    }
+
+    // Check if the address contains only valid characters (alphanumeric and "-")
+    if (!/^[a-zA-Z0-9-]+$/.test(address)) {
+      return false;
+    }
+
+    return true;
+  };
+
+  /**
+   * uses the create and subscribe method from the xumm
+   * SDK to listen for events
+   *
+   * @param {*} xummSDK
+   * @param {*} xummPayload
+   */
+  const handleTxPayloadNativeWS = async (xummSDK, xummPayload) => {
+    try {
+      const pong = await xummSDK.ping();
+      console.log(pong.application);
+
+      const payloadResponse = xummSDK.payload.createAndSubscribe(
+        xummPayload,
+        (e) => {
+          console.log("event subscription", e.data);
+          setWebsocketMessage(e.data);
+
+          if (typeof e.data.signed !== "undefined") {
+            setTxStatus(1);
+            setTxStatusMessage(`Payment signed.`);
+            setPaymentPayload(null);
+            setFormState({ destination: "" });
+
+            // wait 5 seconds and then clear the message
+            setTimeout(function () {
+              setWebsocketMessage(null);
+              setTxStatusMessage(null);
+              setTxStatus(0);
+            }, 5000);
+            return e.data;
+          }
+        }
+      );
+      // .catch(e => {
+      //   console.log("error", e);
+      //   setError(e);
+      // });
+
+      const r = await payloadResponse;
+      setPaymentPayload(await r.created);
+      setTxStatusMessage("Listening for the TX Sign request to the Wallet.");
+    } catch (e) {
+      // console.log({error: e.message, stack: e.stack})
+      setError(e.message);
+    }
+  };
 
   useEffect(() => {
     console.log("App.js useEffect");
@@ -622,22 +709,36 @@ export function App() {
   const mintToken = async () => {
     const client = await connectClient();
 
-    // const transactionBlob = {
-    //   TransactionType: "NFTokenMint",
-    //   Account: identity?.sub || "",
-    //   URI: convertStringToHex(tokenUrl),
-    //   Flags: parseInt(flags),
-    //   TokenTaxon: 0, //Required, but if you have no use for it, set to zero.
-    // };
-    // // Submit signed blob --------------------------------------------------------
-    // const tx = await client.submitAndWait(transactionBlob, { identity?.sub });
+    console.log("mintToken");
+    setTxStatusMessage("Creating payload");
 
-    // const nfts = await client.request({
-    //   method: "account_nfts",
-    //   account: identity?.sub || "",
-    // });
-    // console.log(nfts);
+    const transactionBlob = {
+      TransactionType: "NFTokenMint",
+      Account: identity?.sub || "",
+      URI: convertStringToHex(tokenUrl),
+      Flags: parseInt(flags),
+      TokenTaxon: 0, //Required, but if you have no use for it, set to zero.
+    };
 
+    if (!isValidXRPAddress(formState.destination)) {
+      setError("Invalid destination address");
+      return;
+    } else {
+      setTxStatusMessage("Creating payload");
+      xumm.then((xummSDK) => {
+        const paymentPayload = {
+          txjson: transactionBlob,
+        };
+        handleTxPayloadNativeWS(xummSDK, paymentPayload);
+      });
+    }
+
+    const nfts = await client.request({
+      method: "account_nfts",
+      account: identity?.sub || "",
+    });
+    console.log(nfts);
+    alert(nfts.toString());
     // // Check transaction results -------------------------------------------------
     // console.log("Transaction result:", tx.result.meta.TransactionResult);
     // console.log(
@@ -1143,9 +1244,9 @@ export function App() {
           </table>
         </div>
 
-        <footer class="h-fit bg-black p-3">
+        {/* <footer class="h-fit bg-black p-3">
           <LinkedFooter xumm={xumm} />
-        </footer>
+        </footer> */}
       </div>
     </>
   );
