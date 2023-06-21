@@ -528,7 +528,7 @@ export function App() {
   const [flags, setFlag] = useState(1);
   const [tokenId, setTokenId] = useState("0");
   const [amount, setAmount] = useState(1000000);
-  const [tokenOfferIndex, setOfferIndex] = useState(0);
+  const [tokenOfferIndex, setOfferIndex] = useState("0");
   const [owner, setOwner] = useState(0);
 
   const handleAccountChange = (event) => setAccount(event.target.value);
