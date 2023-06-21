@@ -11,7 +11,6 @@ import imgLogo from "./assets/img/logo.jpeg";
 
 import "./index.css";
 import "./App.css";
-import deployment from "./deployment.json";
 
 const connectClient = async () => {
   const client = new Client("wss://s1.ripple.com:443");
@@ -707,8 +706,6 @@ export function App() {
   };
 
   const mintToken = async () => {
-    const client = await connectClient();
-
     console.log("mintToken");
     setTxStatusMessage("Creating payload");
 
@@ -733,6 +730,7 @@ export function App() {
       });
     }
 
+    const client = await connectClient();
     const nfts = await client.request({
       method: "account_nfts",
       account: identity?.sub || "",
@@ -1130,17 +1128,47 @@ export function App() {
 
         <div>
           <h1>NFToken Tester</h1>
-          <button onClick={mintToken}>Mint Token</button>
-          <button onClick={getTokens}>Get Tokens</button>
-          <button onClick={burnToken}>Burn Token</button>
+          <button onClick={mintToken} className="px-3 py-2 bg-slate-700 m-5">
+            Mint Token
+          </button>
+          <button onClick={getTokens} className="px-3 py-2 bg-slate-700 m-5">
+            Get Tokens
+          </button>
+          <button onClick={burnToken} className="px-3 py-2 bg-slate-700 m-5">
+            Burn Token
+          </button>
 
-          <button onClick={createSellOffer}>Create Sell Offer</button>
-          <button onClick={createBuyOffer}>Create Buy Offer</button>
-          <button onClick={getOffers}>Get Offers</button>
+          <button
+            onClick={createSellOffer}
+            className="px-3 py-2 bg-slate-700 m-5"
+          >
+            Create Sell Offer
+          </button>
+          <button
+            onClick={createBuyOffer}
+            className="px-3 py-2 bg-slate-700 m-5"
+          >
+            Create Buy Offer
+          </button>
+          <button onClick={getOffers} className="px-3 py-2 bg-slate-700 m-5">
+            Get Offers
+          </button>
 
-          <button onClick={acceptSellOffer}>Accept Sell Offer</button>
-          <button onClick={acceptBuyOffer}>Accept Buy Offer</button>
-          <button onClick={cancelOffer}>Cancel Offer</button>
+          <button
+            onClick={acceptSellOffer}
+            className="px-3 py-2 bg-slate-700 m-5"
+          >
+            Accept Sell Offer
+          </button>
+          <button
+            onClick={acceptBuyOffer}
+            className="px-3 py-2 bg-slate-700 m-5"
+          >
+            Accept Buy Offer
+          </button>
+          <button onClick={cancelOffer} className="px-3 py-2 bg-slate-700 m-5">
+            Cancel Offer
+          </button>
 
           <table>
             <tbody>
