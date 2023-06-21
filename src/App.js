@@ -709,7 +709,6 @@ export function App() {
 
     const transactionBlob = {
       TransactionType: "NFTokenMint",
-      Account: identity?.sub,
       URI: convertStringToHex(tokenUrl),
       Flags: parseInt(flags),
       TransferFee: parseInt(100000),
