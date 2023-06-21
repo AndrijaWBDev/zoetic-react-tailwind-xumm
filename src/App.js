@@ -13,7 +13,7 @@ import "./index.css";
 import "./App.css";
 
 const connectClient = async () => {
-  const client = new Client("wss://s1.ripple.com:443");
+  const client = new Client("wss://xrplcluster.com");
   await client.connect();
   console.log("Connected to Sandbox");
 
@@ -322,197 +322,197 @@ const WebsocketMessageViewer = ({ message, title = "Message" }) => {
   );
 };
 
-const PaymentForm = ({ xumm, fromAccount }) => {
-  const [formState, setFormState] = useState({ destination: "" });
-  const [runtime, setRuntime] = useState(null);
+// const PaymentForm = ({ xumm, fromAccount }) => {
+//   const [formState, setFormState] = useState({ destination: "" });
+//   const [runtime, setRuntime] = useState(null);
 
-  /** state for the tx listening */
-  const [websocketMessage, setWebsocketMessage] = useState(null);
-  const [paymentPayload, setPaymentPayload] = useState(null);
-  const [txStatus, setTxStatus] = useState(0);
-  const [txStatusMessage, setTxStatusMessage] = useState(null);
-  const [error, setError] = useState(null);
+//   /** state for the tx listening */
+//   const [websocketMessage, setWebsocketMessage] = useState(null);
+//   const [paymentPayload, setPaymentPayload] = useState(null);
+//   const [txStatus, setTxStatus] = useState(0);
+//   const [txStatusMessage, setTxStatusMessage] = useState(null);
+//   const [error, setError] = useState(null);
 
-  /**
-   * detect if this is a mobile device
-   */
-  useEffect(() => {
-    // get the runtime so we can launch tx listening
-    // for xapp
-    xumm.then((xummSDK) => {
-      setRuntime(xummSDK.runtime);
-    });
-  }, []);
+//   /**
+//    * detect if this is a mobile device
+//    */
+//   useEffect(() => {
+//     // get the runtime so we can launch tx listening
+//     // for xapp
+//     xumm.then((xummSDK) => {
+//       setRuntime(xummSDK.runtime);
+//     });
+//   }, []);
 
-  const handleInputChange = (event) => {
-    setError(null);
-    setTxStatusMessage(null);
-    const target = event.target;
-    let value = target.value;
-    const name = target.name;
-    console.log(name, value);
+//   const handleInputChange = (event) => {
+//     setError(null);
+//     setTxStatusMessage(null);
+//     const target = event.target;
+//     let value = target.value;
+//     const name = target.name;
+//     console.log(name, value);
 
-    setFormState((formState) => ({
-      ...formState,
-      [name]: value,
-    }));
-  };
+//     setFormState((formState) => ({
+//       ...formState,
+//       [name]: value,
+//     }));
+//   };
 
-  /**
-   * create a payment payload
-   * @param {*} account
-   * @param {*} destination
-   * @returns
-   */
-  const paymentPayloadRequest = (account, destination) => {
-    return {
-      Account: account,
-      TransactionType: "Payment",
-      Flags: 0,
-      SigningPubKey: "",
-      Amount: "1000000",
-      Destination: destination,
-    };
-  };
+//   /**
+//    * create a payment payload
+//    * @param {*} account
+//    * @param {*} destination
+//    * @returns
+//    */
+//   const paymentPayloadRequest = (account, destination) => {
+//     return {
+//       Account: account,
+//       TransactionType: "Payment",
+//       Flags: 0,
+//       SigningPubKey: "",
+//       Amount: "1000000",
+//       Destination: destination,
+//     };
+//   };
 
-  const isValidXRPAddress = (address) => {
-    // Check if the address is a string and 34 characters long
-    if (typeof address !== "string" || address.length !== 34) {
-      return false;
-    }
+//   const isValidXRPAddress = (address) => {
+//     // Check if the address is a string and 34 characters long
+//     if (typeof address !== "string" || address.length !== 34) {
+//       return false;
+//     }
 
-    // Check if the address starts with the letter "r"
-    if (address[0] !== "r") {
-      return false;
-    }
+//     // Check if the address starts with the letter "r"
+//     if (address[0] !== "r") {
+//       return false;
+//     }
 
-    // Check if the address contains only valid characters (alphanumeric and "-")
-    if (!/^[a-zA-Z0-9-]+$/.test(address)) {
-      return false;
-    }
+//     // Check if the address contains only valid characters (alphanumeric and "-")
+//     if (!/^[a-zA-Z0-9-]+$/.test(address)) {
+//       return false;
+//     }
 
-    return true;
-  };
+//     return true;
+//   };
 
-  const payAccount = () => {
-    console.log("payAccount");
-    setTxStatusMessage("Creating payload");
+//   const payAccount = () => {
+//     console.log("payAccount");
+//     setTxStatusMessage("Creating payload");
 
-    if (!isValidXRPAddress(formState.destination)) {
-      setError("Invalid destination address");
-      return;
-    } else {
-      setTxStatusMessage("Creating payload");
-      xumm.then((xummSDK) => {
-        const paymentPayload = {
-          txjson: paymentPayloadRequest(fromAccount, formState.destination),
-        };
-        handleTxPayloadNativeWS(xummSDK, paymentPayload);
-      });
-    }
-  };
+//     if (!isValidXRPAddress(formState.destination)) {
+//       setError("Invalid destination address");
+//       return;
+//     } else {
+//       setTxStatusMessage("Creating payload");
+//       xumm.then((xummSDK) => {
+//         const paymentPayload = {
+//           txjson: paymentPayloadRequest(fromAccount, formState.destination),
+//         };
+//         handleTxPayloadNativeWS(xummSDK, paymentPayload);
+//       });
+//     }
+//   };
 
-  /**
-   * uses the create and subscribe method from the xumm
-   * SDK to listen for events
-   *
-   * @param {*} xummSDK
-   * @param {*} xummPayload
-   */
-  const handleTxPayloadNativeWS = async (xummSDK, xummPayload) => {
-    try {
-      const pong = await xummSDK.ping();
-      console.log(pong.application);
+//   /**
+//    * uses the create and subscribe method from the xumm
+//    * SDK to listen for events
+//    *
+//    * @param {*} xummSDK
+//    * @param {*} xummPayload
+//    */
+//   const handleTxPayloadNativeWS = async (xummSDK, xummPayload) => {
+//     try {
+//       const pong = await xummSDK.ping();
+//       console.log(pong.application);
 
-      const payloadResponse = xummSDK.payload.createAndSubscribe(
-        xummPayload,
-        (e) => {
-          console.log("event subscription", e.data);
-          setWebsocketMessage(e.data);
+//       const payloadResponse = xummSDK.payload.createAndSubscribe(
+//         xummPayload,
+//         (e) => {
+//           console.log("event subscription", e.data);
+//           setWebsocketMessage(e.data);
 
-          if (typeof e.data.signed !== "undefined") {
-            setTxStatus(1);
-            setTxStatusMessage(`Payment signed.`);
-            setPaymentPayload(null);
-            setFormState({ destination: "" });
+//           if (typeof e.data.signed !== "undefined") {
+//             setTxStatus(1);
+//             setTxStatusMessage(`Payment signed.`);
+//             setPaymentPayload(null);
+//             setFormState({ destination: "" });
 
-            // wait 5 seconds and then clear the message
-            setTimeout(function () {
-              setWebsocketMessage(null);
-              setTxStatusMessage(null);
-              setTxStatus(0);
-            }, 5000);
-            return e.data;
-          }
-        }
-      );
-      // .catch(e => {
-      //   console.log("error", e);
-      //   setError(e);
-      // });
+//             // wait 5 seconds and then clear the message
+//             setTimeout(function () {
+//               setWebsocketMessage(null);
+//               setTxStatusMessage(null);
+//               setTxStatus(0);
+//             }, 5000);
+//             return e.data;
+//           }
+//         }
+//       );
+//       // .catch(e => {
+//       //   console.log("error", e);
+//       //   setError(e);
+//       // });
 
-      const r = await payloadResponse;
-      setPaymentPayload(await r.created);
-      setTxStatusMessage("Listening for the TX Sign request to the Wallet.");
-    } catch (e) {
-      // console.log({error: e.message, stack: e.stack})
-      setError(e.message);
-    }
-  };
+//       const r = await payloadResponse;
+//       setPaymentPayload(await r.created);
+//       setTxStatusMessage("Listening for the TX Sign request to the Wallet.");
+//     } catch (e) {
+//       // console.log({error: e.message, stack: e.stack})
+//       setError(e.message);
+//     }
+//   };
 
-  return (
-    <div className="flex flex-col items-center justify-center">
-      {error && (
-        <div className="w-full text-center text-2xl text-red-700 bg-red-200 italic p-2 rounded">
-          {error}
-        </div>
-      )}
-      <div className="flex flex-col justify-center w-full">
-        {txStatusMessage && txStatus === 1 ? (
-          <div className="w-full text-center text-2xl text-green-700 bg-green-200 italic p-2 rounded">
-            {txStatusMessage}
-          </div>
-        ) : (
-          <div className="w-full text-center text-2xl text-slate-300 italic p-2">
-            {txStatusMessage}
-          </div>
-        )}
-        {websocketMessage && (
-          <WebsocketMessageViewer message={websocketMessage} />
-        )}
-        {paymentPayload && <PaymentPayloadViewer payload={paymentPayload} />}
-      </div>
+//   return (
+//     <div className="flex flex-col items-center justify-center">
+//       {error && (
+//         <div className="w-full text-center text-2xl text-red-700 bg-red-200 italic p-2 rounded">
+//           {error}
+//         </div>
+//       )}
+//       <div className="flex flex-col justify-center w-full">
+//         {txStatusMessage && txStatus === 1 ? (
+//           <div className="w-full text-center text-2xl text-green-700 bg-green-200 italic p-2 rounded">
+//             {txStatusMessage}
+//           </div>
+//         ) : (
+//           <div className="w-full text-center text-2xl text-slate-300 italic p-2">
+//             {txStatusMessage}
+//           </div>
+//         )}
+//         {websocketMessage && (
+//           <WebsocketMessageViewer message={websocketMessage} />
+//         )}
+//         {paymentPayload && <PaymentPayloadViewer payload={paymentPayload} />}
+//       </div>
 
-      <div className="w-full flex flex-row justify-center">
-        {!paymentPayload && (
-          <form className="w-full mb-3 md:w-fit">
-            <div
-              className="flex flex-col md:flex-row items-center border-b border-blue-500 
-              py-2 w-full justify-center md:justify-between"
-            >
-              <input
-                name="destination"
-                value={formState.destination}
-                onChange={handleInputChange}
-                className="m-1 rounded border-2 border-slate-500 w-3/4 text-lg text-center appearance-none bg-slate-800 text-blue-300 mr-3 py-1 px-2 leading-tight focus:outline-none md:w-96"
-                type="text"
-                placeholder="Enter account address"
-                aria-label="XRP Account"
-              />
-              <button
-                onClick={() => payAccount()}
-                className="flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-blue-500 hover:border-blue-700 text-sm border-4 text-white py-1 px-2 rounded"
-                type="button"
-              >
-                Pay 1 XRP
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
-    </div>
-  );
-};
+//       <div className="w-full flex flex-row justify-center">
+//         {!paymentPayload && (
+//           <form className="w-full mb-3 md:w-fit">
+//             <div
+//               className="flex flex-col md:flex-row items-center border-b border-blue-500
+//               py-2 w-full justify-center md:justify-between"
+//             >
+//               <input
+//                 name="destination"
+//                 value={formState.destination}
+//                 onChange={handleInputChange}
+//                 className="m-1 rounded border-2 border-slate-500 w-3/4 text-lg text-center appearance-none bg-slate-800 text-blue-300 mr-3 py-1 px-2 leading-tight focus:outline-none md:w-96"
+//                 type="text"
+//                 placeholder="Enter account address"
+//                 aria-label="XRP Account"
+//               />
+//               <button
+//                 onClick={() => payAccount()}
+//                 className="flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-blue-500 hover:border-blue-700 text-sm border-4 text-white py-1 px-2 rounded"
+//                 type="button"
+//               >
+//                 Pay 1 XRP
+//               </button>
+//             </div>
+//           </form>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
 
 export function App() {
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -728,58 +728,40 @@ export function App() {
         handleTxPayloadNativeWS(xummSDK, paymentPayload);
       });
     }
-
-    // const client = await connectClient();
-    // const nfts = await client.request({
-    //   method: "account_nfts",
-    //   account: identity?.sub || "",
-    // });
-    // console.log(nfts);
-    // // Check transaction results -------------------------------------------------
-    // console.log("Transaction result:", tx.result.meta.TransactionResult);
-    // console.log(
-    //   "Balance changes:",
-    //   JSON.stringify(getBalanceChanges(tx.result.meta), null, 2)
-    // );
-    // client.disconnect();
   };
 
   const getTokens = async () => {
     const client = await connectClient();
 
-    // console.log("Connected to Sandbox");
-    // const nfts = await client.request({
-    //   method: "account_nfts",
-    //   account: identity?.sub || "",
-    // });
-    // console.log(nfts);
+    const nfts = await client.request({
+      method: "account_nfts",
+      account: identity?.sub || "",
+    });
+    console.log(nfts);
+    alert(JSON.stringify(nfts));
     client.disconnect();
   };
 
   const burnToken = async () => {
-    const client = await connectClient();
-
     // // Prepare transaction -------------------------------------------------------
-    // const transactionBlob = {
-    //   TransactionType: "NFTokenBurn",
-    //   Account: identity?.sub || ",
-    //   TokenID: tokenId,
-    // };
+    const transactionBlob = {
+      TransactionType: "NFTokenBurn",
+      Account: identity?.sub || "",
+      TokenID: tokenId,
+    };
 
-    // // Submit signed blob --------------------------------------------------------
-    // const tx = await client.submitAndWait(transactionBlob, { wallet });
-    // const nfts = await client.request({
-    //   method: "account_nfts",
-    //   account: identity?.sub || ",
-    // });
-    // console.log(nfts);
-    // // Check transaction results -------------------------------------------------
-    // console.log("Transaction result:", tx.result.meta.TransactionResult);
-    // console.log(
-    //   "Balance changes:",
-    //   JSON.stringify(getBalanceChanges(tx.result.meta), null, 2)
-    // );
-    client.disconnect();
+    if (!isValidXRPAddress(identity?.sub)) {
+      setError("Invalid connected address");
+      return;
+    } else {
+      setTxStatusMessage("Creating payload");
+      xumm.then((xummSDK) => {
+        const paymentPayload = {
+          txjson: transactionBlob,
+        };
+        handleTxPayloadNativeWS(xummSDK, paymentPayload);
+      });
+    }
   };
 
   const createSellOffer = async () => {
@@ -1096,7 +1078,7 @@ export function App() {
               )}
             </div>
 
-            {isAuthorized && <PaymentForm xumm={xumm} />}
+            {/* {isAuthorized && <PaymentForm xumm={xumm} />} */}
 
             {identity && (
               <>
