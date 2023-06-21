@@ -624,17 +624,17 @@ export function App() {
 
     // const transactionBlob = {
     //   TransactionType: "NFTokenMint",
-    //   Account: "",
+    //   Account: identity?.sub || "",
     //   URI: convertStringToHex(tokenUrl),
     //   Flags: parseInt(flags),
     //   TokenTaxon: 0, //Required, but if you have no use for it, set to zero.
     // };
     // // Submit signed blob --------------------------------------------------------
-    // const tx = await client.submitAndWait(transactionBlob, { wallet });
+    // const tx = await client.submitAndWait(transactionBlob, { identity?.sub });
 
     // const nfts = await client.request({
     //   method: "account_nfts",
-    //   account: wallet.classicAddress,
+    //   account: identity?.sub || "",
     // });
     // console.log(nfts);
 
@@ -653,7 +653,7 @@ export function App() {
     // console.log("Connected to Sandbox");
     // const nfts = await client.request({
     //   method: "account_nfts",
-    //   account: wallet.classicAddress,
+    //   account: identity?.sub || "",
     // });
     // console.log(nfts);
     client.disconnect();
@@ -665,7 +665,7 @@ export function App() {
     // // Prepare transaction -------------------------------------------------------
     // const transactionBlob = {
     //   TransactionType: "NFTokenBurn",
-    //   Account: wallet.classicAddress,
+    //   Account: identity?.sub || ",
     //   TokenID: tokenId,
     // };
 
@@ -673,7 +673,7 @@ export function App() {
     // const tx = await client.submitAndWait(transactionBlob, { wallet });
     // const nfts = await client.request({
     //   method: "account_nfts",
-    //   account: wallet.classicAddress,
+    //   account: identity?.sub || ",
     // });
     // console.log(nfts);
     // // Check transaction results -------------------------------------------------
@@ -691,7 +691,7 @@ export function App() {
     // // Prepare transaction -------------------------------------------------------
     // const transactionBlob = {
     //   TransactionType: "NFTokenCreateOffer",
-    //   Account: wallet.classicAddress,
+    //   Account: identity?.sub || ",
     //   TokenID: tokenId,
     //   Amount: amount,
     //   Flags: parseInt(flags),
@@ -742,7 +742,7 @@ export function App() {
     // // Prepare transaction -------------------------------------------------------
     // const transactionBlob = {
     //   TransactionType: "NFTokenCreateOffer",
-    //   Account: wallet.classicAddress,
+    //   Account: identity?.sub || ",
     //   Owner: owner,
     //   TokenID: tokenId,
     //   Amount: amount,
@@ -797,7 +797,7 @@ export function App() {
     // // Prepare transaction -------------------------------------------------------
     // const transactionBlob = {
     //   TransactionType: "NFTokenCancelOffer",
-    //   Account: wallet.classicAddress,
+    //   Account: identity?.sub || ",
     //   TokenIDs: tokenIDs,
     // };
 
@@ -875,14 +875,14 @@ export function App() {
     // Prepare transaction -------------------------------------------------------
     // const transactionBlob = {
     //   TransactionType: "NFTokenAcceptOffer",
-    //   Account: wallet.classicAddress,
+    //   Account: identity?.sub || ",
     //   SellOffer: tokenOfferIndex,
     // };
     // // Submit signed blob --------------------------------------------------------
     // const tx = await client.submitAndWait(transactionBlob, { wallet });
     // const nfts = await client.request({
     //   method: "account_nfts",
-    //   account: wallet.classicAddress,
+    //   account: identity?.sub || ",
     // });
     // console.log(JSON.stringify(nfts, null, 2));
 
@@ -903,14 +903,14 @@ export function App() {
     // Prepare transaction -------------------------------------------------------
     // const transactionBlob = {
     //   TransactionType: "NFTokenAcceptOffer",
-    //   Account: wallet.classicAddress,
+    //   Account: identity?.sub || ",
     //   BuyOffer: tokenOfferIndex,
     // };
     // Submit signed blob --------------------------------------------------------
     // const tx = await client.submitAndWait(transactionBlob, { wallet });
     // const nfts = await client.request({
     //   method: "account_nfts",
-    //   account: wallet.classicAddress,
+    //   account: identity?.sub || ",
     // });
     // console.log(JSON.stringify(nfts, null, 2));
 
@@ -1047,6 +1047,7 @@ export function App() {
                 <td align="right">Account</td>
                 <td>
                   <input
+                    className="text-center text-blue-400 font-mono bg-black"
                     type="text"
                     value={account}
                     onChange={handleAccountChange}
@@ -1058,6 +1059,7 @@ export function App() {
                 <td align="right">Secret</td>
                 <td>
                   <input
+                    className="text-center text-blue-400 font-mono bg-black"
                     type="text"
                     value={secret}
                     onChange={handleSecretChange}
@@ -1069,6 +1071,7 @@ export function App() {
                 <td align="right">Token URL</td>
                 <td>
                   <input
+                    className="text-center text-blue-400 font-mono bg-black"
                     type="text"
                     value={tokenUrl}
                     onChange={handleTokenURLChange}
@@ -1080,6 +1083,7 @@ export function App() {
                 <td align="right">Flags</td>
                 <td>
                   <input
+                    className="text-center text-blue-400 font-mono bg-black"
                     type="text"
                     value={flags}
                     onChange={handleFlagChange}
@@ -1091,6 +1095,7 @@ export function App() {
                 <td align="right">Token ID</td>
                 <td>
                   <input
+                    className="text-center text-blue-400 font-mono bg-black"
                     type="text"
                     value={tokenId}
                     onChange={handleTokenIdChange}
@@ -1102,6 +1107,7 @@ export function App() {
                 <td align="right">Amount</td>
                 <td>
                   <input
+                    className="text-center text-blue-400 font-mono bg-black"
                     type="text"
                     value={amount}
                     onChange={handleAmountChange}
@@ -1113,6 +1119,7 @@ export function App() {
                 <td align="right">Token Offer Index</td>
                 <td>
                   <input
+                    className="text-center text-blue-400 font-mono bg-black"
                     type="text"
                     value={tokenOfferIndex}
                     onChange={handleOfferIndexChange}
@@ -1124,6 +1131,7 @@ export function App() {
                 <td align="right">Owner</td>
                 <td>
                   <input
+                    className="text-center text-blue-400 font-mono bg-black"
                     type="text"
                     value={owner}
                     onChange={handleOwnerChange}
