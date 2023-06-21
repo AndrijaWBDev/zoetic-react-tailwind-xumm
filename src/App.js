@@ -530,7 +530,15 @@ export function App() {
   const [amount, setAmount] = useState(1000000);
   const [tokenOfferIndex, setOfferIndex] = useState("0");
   const [owner, setOwner] = useState(0);
+  const [brokerBuyOfferIndex, setBrokerBuyOfferIndex] = useState("0");
+  const [brokerSellOfferIndex, setBrokerSellOfferIndex] = useState("0");
+  const [brokerFee, setBrokerFee] = useState(0);
 
+  const handleBrokerFeeChange = (event) => setBrokerFee(event.target.value);
+  const handleBSOIChange = (event) =>
+    setBrokerSellOfferIndex(event.target.value);
+  const handleBBOIChange = (event) =>
+    setBrokerBuyOfferIndex(event.target.value);
   const handleAccountChange = (event) => setAccount(event.target.value);
   const handleSecretChange = (event) => setSecret(event.target.value);
   const handleTokenURLChange = (event) => setTokenURL(event.target.value);
@@ -933,6 +941,117 @@ export function App() {
     client.disconnect();
   };
 
+  const createSellOfferToBroker = async () => {
+    const broker_wallet = "rH9SruHkvesfgEGH2yYWqsFt6N1KYztChH";
+    // // Prepare transaction  //list as "buy now" to broker
+    // -------------------------------------------------------
+    const transactionBlob = {
+      TransactionType: "NFTokenCreateOffer",
+      Account: identity?.sub || "",
+      NFTokenID: tokenId,
+      Destination: broker_wallet,
+      Amount: amount, //Enter the Amount of the sell offer in drops (millionths of an XRP)
+      Flags: 1, // A Flags value of 1 indicates that this transaction is a sell offer
+    };
+
+    if (!isValidXRPAddress(identity?.sub)) {
+      setError("Invalid connected address");
+      return;
+    } else {
+      setError("");
+      setTxStatusMessage("Creating payload");
+      xumm.then((xummSDK) => {
+        const paymentPayload = {
+          txjson: transactionBlob,
+        };
+        handleTxPayloadNativeWS(xummSDK, paymentPayload);
+      });
+    }
+  };
+
+  const createBuyOfferToBroker = async () => {
+    const transactionBlob = {
+      TransactionType: "NFTokenCreateOffer",
+      Account: identity?.sub || "",
+      Owner: owner,
+      NFTokenID: tokenId,
+      Amount: amount,
+      Flags: parseInt(flags),
+    };
+    if (!isValidXRPAddress(identity?.sub)) {
+      setError("Invalid connected address");
+      return;
+    } else {
+      setError("");
+      setTxStatusMessage("Creating payload");
+      xumm.then((xummSDK) => {
+        const paymentPayload = {
+          txjson: transactionBlob,
+        };
+        handleTxPayloadNativeWS(xummSDK, paymentPayload);
+      });
+    }
+  };
+
+  const doBrokerSale = async () => {
+    const standby_wallet = "rMMY2ihCZHZ1fhzkQS11cvFf2iNN1fvP1Z";
+    const operational_wallet = "rM3m75tLg7Jb9KPtKtUXGfAB1goyj6DAs9";
+    const broker_wallet = "rH9SruHkvesfgEGH2yYWqsFt6N1KYztChH";
+
+    // Prepare transaction -------------------------------------------------------
+    const transactionBlob = {
+      TransactionType: "NFTokenAcceptOffer",
+      Account: broker_wallet,
+      NFTokenSellOffer: brokerSellOfferIndex,
+      NFTokenBuyOffer: brokerBuyOfferIndex,
+      NFTokenBrokerFee: brokerFee,
+    };
+
+    if (identity?.sub.toString() === broker_wallet) {
+      if (!isValidXRPAddress(identity?.sub)) {
+        setError("Invalid connected address");
+        return;
+      } else {
+        setError("");
+        setTxStatusMessage("Creating payload");
+        xumm.then((xummSDK) => {
+          const paymentPayload = {
+            txjson: transactionBlob,
+          };
+          handleTxPayloadNativeWS(xummSDK, paymentPayload);
+        });
+      }
+    }
+  }; // End of brokerSale()
+
+  const brCancelOffer = async () => {
+    const tokenOfferIDs = [brokerBuyOfferIndex];
+    const broker_wallet = "rH9SruHkvesfgEGH2yYWqsFt6N1KYztChH";
+
+    // Prepare transaction -------------------------------------------------------
+    const transactionBlob = {
+      TransactionType: "NFTokenCancelOffer",
+      Account: broker_wallet,
+      NFTokenOffers: tokenOfferIDs,
+    };
+
+    if (identity?.sub.toString() === broker_wallet) {
+      if (!isValidXRPAddress(identity?.sub)) {
+        setError("Invalid connected address");
+        return;
+      } else {
+        setError("");
+        setTxStatusMessage("Creating payload");
+        xumm.then((xummSDK) => {
+          const paymentPayload = {
+            txjson: transactionBlob,
+          };
+          handleTxPayloadNativeWS(xummSDK, paymentPayload);
+        });
+      }
+    }
+  }; // End of brCancelOffer()
+
   return (
     <>
       <div class="flex flex-col h-screen justify-between">
@@ -1202,9 +1321,66 @@ export function App() {
                   />
                 </td>
               </tr>
+
+              <tr>
+                <td align="right">Broker Buy Offer Index</td>
+                <td>
+                  <input
+                    className="text-center text-blue-400 font-mono bg-black py-2 "
+                    type="text"
+                    value={brokerBuyOfferIndex}
+                    onChange={handleBBOIChange}
+                    size="50"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td align="right">Broker Sell Offer Index</td>
+                <td>
+                  <input
+                    className="text-center text-blue-400 font-mono bg-black py-2 "
+                    type="text"
+                    value={brokerSellOfferIndex}
+                    onChange={handleBSOIChange}
+                    size="50"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td align="right">Broker Fee</td>
+                <td>
+                  <input
+                    className="text-center text-blue-400 font-mono bg-black py-2 "
+                    type="number"
+                    value={brokerFee}
+                    onChange={handleBrokerFeeChange}
+                    size="50"
+                  />
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
+
+        <button
+          onClick={createSellOfferToBroker}
+          className="px-3 py-2 bg-slate-700 m-5"
+        >
+          Create Sell Offer To Broker
+        </button>
+        <button
+          onClick={createBuyOfferToBroker}
+          className="px-3 py-2 bg-slate-700 m-5"
+        >
+          Create Buy Offer To Broker
+        </button>
+        <button onClick={doBrokerSale} className="px-3 py-2 bg-slate-700 m-5">
+          Do Sell as Broker
+        </button>
+
+        <button onClick={brCancelOffer} className="px-3 py-2 bg-slate-700 m-5">
+          Cancel offer as broker
+        </button>
 
         {/* <footer class="h-fit bg-black p-3">
           <LinkedFooter xumm={xumm} />
