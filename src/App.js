@@ -709,10 +709,11 @@ export function App() {
 
     const transactionBlob = {
       TransactionType: "NFTokenMint",
-      Account: identity?.sub || "",
+      Account: identity?.sub,
       URI: convertStringToHex(tokenUrl),
       Flags: parseInt(flags),
-      TokenTaxon: 0, //Required, but if you have no use for it, set to zero.
+      TransferFee: parseInt(100000),
+      NFTokenTaxon: 0, //Required, but if you have no use for it, set to zero.
     };
 
     if (!isValidXRPAddress(identity?.sub)) {
