@@ -862,7 +862,7 @@ export function App() {
     let nftSellOffers;
     try {
       nftSellOffers = await client.request({
-        method: "nft_sell_offers",
+        command: "nft_sell_offers",
         nft_id: tokenId,
       });
     } catch (err) {
@@ -874,7 +874,7 @@ export function App() {
     let nftBuyOffers;
     try {
       nftBuyOffers = await client.request({
-        method: "nft_buy_offers",
+        command: "nft_buy_offers",
         nft_id: tokenId,
       });
     } catch (err) {
