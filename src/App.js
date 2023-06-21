@@ -1047,7 +1047,7 @@ export function App() {
                 <td align="right">Account</td>
                 <td>
                   <input
-                    className="text-center text-blue-400 font-mono bg-black"
+                    className="text-center text-blue-400 font-mono bg-black py-2 "
                     type="text"
                     value={account}
                     onChange={handleAccountChange}
@@ -1059,7 +1059,7 @@ export function App() {
                 <td align="right">Secret</td>
                 <td>
                   <input
-                    className="text-center text-blue-400 font-mono bg-black"
+                    className="text-center text-blue-400 font-mono bg-black py-2 "
                     type="text"
                     value={secret}
                     onChange={handleSecretChange}
@@ -1071,7 +1071,7 @@ export function App() {
                 <td align="right">Token URL</td>
                 <td>
                   <input
-                    className="text-center text-blue-400 font-mono bg-black"
+                    className="text-center text-blue-400 font-mono bg-black py-2 "
                     type="text"
                     value={tokenUrl}
                     onChange={handleTokenURLChange}
@@ -1083,7 +1083,7 @@ export function App() {
                 <td align="right">Flags</td>
                 <td>
                   <input
-                    className="text-center text-blue-400 font-mono bg-black"
+                    className="text-center text-blue-400 font-mono bg-black py-2 "
                     type="text"
                     value={flags}
                     onChange={handleFlagChange}
@@ -1095,7 +1095,7 @@ export function App() {
                 <td align="right">Token ID</td>
                 <td>
                   <input
-                    className="text-center text-blue-400 font-mono bg-black"
+                    className="text-center text-blue-400 font-mono bg-black py-2 "
                     type="text"
                     value={tokenId}
                     onChange={handleTokenIdChange}
@@ -1107,7 +1107,7 @@ export function App() {
                 <td align="right">Amount</td>
                 <td>
                   <input
-                    className="text-center text-blue-400 font-mono bg-black"
+                    className="text-center text-blue-400 font-mono bg-black py-2 "
                     type="text"
                     value={amount}
                     onChange={handleAmountChange}
@@ -1119,7 +1119,7 @@ export function App() {
                 <td align="right">Token Offer Index</td>
                 <td>
                   <input
-                    className="text-center text-blue-400 font-mono bg-black"
+                    className="text-center text-blue-400 font-mono bg-black py-2 "
                     type="text"
                     value={tokenOfferIndex}
                     onChange={handleOfferIndexChange}
@@ -1131,7 +1131,7 @@ export function App() {
                 <td align="right">Owner</td>
                 <td>
                   <input
-                    className="text-center text-blue-400 font-mono bg-black"
+                    className="text-center text-blue-400 font-mono bg-black py-2 "
                     type="text"
                     value={owner}
                     onChange={handleOwnerChange}
