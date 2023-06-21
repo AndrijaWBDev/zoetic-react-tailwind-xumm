@@ -787,50 +787,7 @@ export function App() {
       });
     }
 
-    const client = await connectClient();
-    console.log("***Sell Offers***");
-    let nftSellOffers;
-    try {
-      nftSellOffers = await client.request({
-        method: "nft_sell_offers",
-        tokenid: tokenId,
-      });
-    } catch (err) {
-      console.log("No sell offers.");
-    }
-    console.log(JSON.stringify(nftSellOffers, null, 2));
-    alert("sell offers >>>> " + JSON.stringify(nftSellOffers, null, 2));
-    console.log("***Buy Offers***");
-    let nftBuyOffers;
-    try {
-      nftBuyOffers = await client.request({
-        method: "nft_buy_offers",
-        tokenid: tokenId,
-      });
-    } catch (err) {
-      console.log("No buy offers.");
-    }
-    console.log(JSON.stringify(nftBuyOffers, null, 2));
-    alert("buy offers >>>> " + JSON.stringify(nftSellOffers, null, 2));
-    client.disconnect();
-  };
-
-  const createBuyOffer = async () => {
-    const client = await connectClient();
-
-    // // Prepare transaction -------------------------------------------------------
-    // const transactionBlob = {
-    //   TransactionType: "NFTokenCreateOffer",
-    //   Account: identity?.sub || ",
-    //   Owner: owner,
-    //   TokenID: tokenId,
-    //   Amount: amount,
-    //   Flags: parseInt(flags),
-    // };
-
-    // // Submit signed blob --------------------------------------------------------
-    // const tx = await client.submitAndWait(transactionBlob, { wallet });
-
+    // const client = await connectClient();
     // console.log("***Sell Offers***");
     // let nftSellOffers;
     // try {
@@ -842,6 +799,7 @@ export function App() {
     //   console.log("No sell offers.");
     // }
     // console.log(JSON.stringify(nftSellOffers, null, 2));
+    // alert("sell offers >>>> " + JSON.stringify(nftSellOffers, null, 2));
     // console.log("***Buy Offers***");
     // let nftBuyOffers;
     // try {
@@ -853,8 +811,34 @@ export function App() {
     //   console.log("No buy offers.");
     // }
     // console.log(JSON.stringify(nftBuyOffers, null, 2));
+    // alert("buy offers >>>> " + JSON.stringify(nftSellOffers, null, 2));
+    // client.disconnect();
+  };
 
-    // // Check transaction results -------------------------------------------------
+  const createBuyOffer = async () => {
+    // // Prepare transaction -------------------------------------------------------
+    const transactionBlob = {
+      TransactionType: "NFTokenCreateOffer",
+      Account: identity?.sub || "",
+      Owner: owner,
+      TokenID: tokenId,
+      Amount: amount,
+      Flags: parseInt(flags),
+    };
+
+    if (!isValidXRPAddress(identity?.sub)) {
+      setError("Invalid connected address");
+      return;
+    } else {
+      setTxStatusMessage("Creating payload");
+      xumm.then((xummSDK) => {
+        const paymentPayload = {
+          txjson: transactionBlob,
+        };
+        handleTxPayloadNativeWS(xummSDK, paymentPayload);
+      });
+    }
+
     // console.log(
     //   "Transaction result:",
     //   JSON.stringify(tx.result.meta.TransactionResult, null, 2)
@@ -863,7 +847,6 @@ export function App() {
     //   "Balance changes:",
     //   JSON.stringify(getBalanceChanges(tx.result.meta), null, 2)
     // );
-    client.disconnect();
   };
 
   const cancelOffer = async () => {
@@ -949,32 +932,27 @@ export function App() {
   };
 
   const acceptSellOffer = async () => {
-    const client = await connectClient();
+    // buy an NFT listed as "Buy now"
 
-    // Prepare transaction -------------------------------------------------------
-    // const transactionBlob = {
-    //   TransactionType: "NFTokenAcceptOffer",
-    //   Account: identity?.sub || ",
-    //   SellOffer: tokenOfferIndex,
-    // };
-    // // Submit signed blob --------------------------------------------------------
-    // const tx = await client.submitAndWait(transactionBlob, { wallet });
-    // const nfts = await client.request({
-    //   method: "account_nfts",
-    //   account: identity?.sub || ",
-    // });
-    // console.log(JSON.stringify(nfts, null, 2));
+    const transactionBlob = {
+      TransactionType: "NFTokenAcceptOffer",
+      Account: identity?.sub || "",
+      SellOffer: tokenOfferIndex,
+    };
+    // Submit signed blob
 
-    // // Check transaction results -------------------------------------------------
-    // console.log(
-    //   "Transaction result:",
-    //   JSON.stringify(tx.result.meta.TransactionResult, null, 2)
-    // );
-    // console.log(
-    //   "Balance changes:",
-    //   JSON.stringify(getBalanceChanges(tx.result.meta), null, 2)
-    // );
-    client.disconnect();
+    if (!isValidXRPAddress(identity?.sub)) {
+      setError("Invalid connected address");
+      return;
+    } else {
+      setTxStatusMessage("Creating payload");
+      xumm.then((xummSDK) => {
+        const paymentPayload = {
+          txjson: transactionBlob,
+        };
+        handleTxPayloadNativeWS(xummSDK, paymentPayload);
+      });
+    }
   };
 
   const acceptBuyOffer = async () => {
@@ -1239,7 +1217,7 @@ export function App() {
                 <td>
                   <input
                     className="text-center text-blue-400 font-mono bg-black py-2 "
-                    type="text"
+                    type="number"
                     value={amount}
                     onChange={handleAmountChange}
                     size="40"
