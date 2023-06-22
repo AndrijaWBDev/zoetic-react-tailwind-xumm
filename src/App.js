@@ -970,7 +970,6 @@ export function App() {
   };
 
   const createBuyOfferToBroker = async () => {
-    const broker_wallet = "rH9SruHkvesfgEGH2yYWqsFt6N1KYztChH";
     const transactionBlob = {
       TransactionType: "NFTokenCreateOffer",
       Account: identity?.sub || "",
@@ -978,7 +977,6 @@ export function App() {
       NFTokenID: tokenId,
       Amount: amount,
       Flags: 0,
-      // Destination: broker_wallet,
     };
     if (!isValidXRPAddress(identity?.sub)) {
       setError("Invalid connected address");
@@ -1000,12 +998,48 @@ export function App() {
     const operational_wallet = "rLazAHHqs35v9Cr4QiAkVUJz8k3cnKpHsc"; //monster
     const broker_wallet = "rH9SruHkvesfgEGH2yYWqsFt6N1KYztChH"; //crystal - broker
 
+    const client = await connectClient();
+
+    console.log("***Sell Offers***");
+    let nftSellOffers;
+    try {
+      nftSellOffers = await client.request({
+        command: "nft_sell_offers",
+        nft_id: tokenId,
+      });
+    } catch (err) {
+      console.log("No sell offers.");
+    }
+    console.log(JSON.stringify(nftSellOffers, null, 2));
+    alert("Sell offers >>>> " + JSON.stringify(nftSellOffers, null, 2));
+    console.log("***Buy Offers***");
+    let nftBuyOffers;
+    try {
+      nftBuyOffers = await client.request({
+        command: "nft_buy_offers",
+        nft_id: tokenId,
+      });
+    } catch (err) {
+      console.log("No buy offers.");
+    }
+    console.log(JSON.stringify(nftBuyOffers, null, 2));
+    alert("Buy offers >>> " + JSON.stringify(nftSellOffers, null, 2));
+    client.disconnect();
+
+    if (nftSellOffers === undefined || nftBuyOffers === undefined) {
+      alert("No sell/buy offers!");
+      return;
+    }
+
+    let latestSellOfferIdx = nftSellOffers.result.offers[0].nft_offer_index;
+    let latestBuyOfferIdx = nftBuyOffers.result.offers[0].nft_offer_index;
+
     // Prepare transaction -------------------------------------------------------
     const transactionBlob = {
       TransactionType: "NFTokenAcceptOffer",
       Account: broker_wallet,
-      NFTokenSellOffer: brokerSellOfferIndex,
-      NFTokenBuyOffer: brokerBuyOfferIndex,
+      NFTokenSellOffer: latestSellOfferIdx,
+      NFTokenBuyOffer: latestBuyOfferIdx,
       NFTokenBrokerFee: brokerFee,
     };
 
