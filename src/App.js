@@ -970,13 +970,15 @@ export function App() {
   };
 
   const createBuyOfferToBroker = async () => {
+    const broker_wallet = "rH9SruHkvesfgEGH2yYWqsFt6N1KYztChH";
     const transactionBlob = {
       TransactionType: "NFTokenCreateOffer",
       Account: identity?.sub || "",
       Owner: owner,
       NFTokenID: tokenId,
-      Amount: amount.toString(),
+      Amount: amount,
       Flags: 1,
+      Destination: broker_wallet,
     };
     if (!isValidXRPAddress(identity?.sub)) {
       setError("Invalid connected address");
@@ -995,8 +997,8 @@ export function App() {
 
   const doBrokerSale = async () => {
     const standby_wallet = "rMMY2ihCZHZ1fhzkQS11cvFf2iNN1fvP1Z"; //galerry
-    const operational_wallet = "rLazAHHqs35v9Cr4QiAkVUJz8k3cnKpHsc"; //monster - broker
-    const broker_wallet = "rH9SruHkvesfgEGH2yYWqsFt6N1KYztChH"; //crystal
+    const operational_wallet = "rLazAHHqs35v9Cr4QiAkVUJz8k3cnKpHsc"; //monster
+    const broker_wallet = "rH9SruHkvesfgEGH2yYWqsFt6N1KYztChH"; //crystal - broker
 
     // Prepare transaction -------------------------------------------------------
     const transactionBlob = {
