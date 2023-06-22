@@ -1036,6 +1036,9 @@ export function App() {
     alert("Buy offers >>> " + JSON.stringify(offers, null, 2));
     alert("Top Buy offer >>> " + JSON.stringify(offers[0], null, 2));
     let latestBuyOfferIdx = offers[0].nft_offer_index;
+    let otherOfferIdxes = offers.filter(
+      (a) => a.nft_offer_index !== latestBuyOfferIdx
+    );
 
     // Prepare transaction -------------------------------------------------------
     const transactionBlob = {
@@ -1053,18 +1056,19 @@ export function App() {
       } else {
         setError("");
         setTxStatusMessage("Creating payload");
-        xumm.then((xummSDK) => {
+        xumm.then(async (xummSDK) => {
           const paymentPayload = {
             txjson: transactionBlob,
           };
-          handleTxPayloadNativeWS(xummSDK, paymentPayload);
+          await handleTxPayloadNativeWS(xummSDK, paymentPayload);
+          await brCancelOffer(otherOfferIdxes);
         });
       }
     }
   }; // End of brokerSale()
 
-  const brCancelOffer = async () => {
-    const tokenOfferIDs = [brokerBuyOfferIndex];
+  const brCancelOffer = async (OfferIdsToCancel) => {
+    const tokenOfferIDs = [...OfferIdsToCancel];
     const broker_wallet = "rH9SruHkvesfgEGH2yYWqsFt6N1KYztChH";
 
     // Prepare transaction -------------------------------------------------------
