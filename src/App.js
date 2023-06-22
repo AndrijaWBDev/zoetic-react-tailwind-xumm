@@ -1032,8 +1032,9 @@ export function App() {
 
     let latestSellOfferIdx = nftSellOffers.result.offers[0].nft_offer_index;
     let offers = nftBuyOffers.result.offers;
-    offers.sort((a, b) => Number(a.amount) - Number(b.amount));
+    offers.sort((a, b) => Number(b.amount) - Number(a.amount));
     alert("Buy offers >>> " + JSON.stringify(offers, null, 2));
+    alert("Top Buy offer >>> " + JSON.stringify(offers[0], null, 2));
     let latestBuyOfferIdx = offers[0].nft_offer_index;
 
     // Prepare transaction -------------------------------------------------------
