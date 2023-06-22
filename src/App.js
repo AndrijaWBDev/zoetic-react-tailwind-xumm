@@ -1023,7 +1023,6 @@ export function App() {
       console.log("No buy offers.");
     }
     console.log(JSON.stringify(nftBuyOffers, null, 2));
-    alert("Buy offers >>> " + JSON.stringify(nftSellOffers, null, 2));
     client.disconnect();
 
     if (nftSellOffers === undefined || nftBuyOffers === undefined) {
@@ -1034,6 +1033,7 @@ export function App() {
     let latestSellOfferIdx = nftSellOffers.result.offers[0].nft_offer_index;
     let offers = nftBuyOffers.result.offers;
     offers.sort((a, b) => Number(a.amount) - Number(b.amount));
+    alert("Buy offers >>> " + JSON.stringify(offers, null, 2));
     let latestBuyOfferIdx = offers[0].nft_offer_index;
 
     // Prepare transaction -------------------------------------------------------
