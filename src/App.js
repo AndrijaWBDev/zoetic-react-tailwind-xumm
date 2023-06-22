@@ -974,10 +974,10 @@ export function App() {
     const transactionBlob = {
       TransactionType: "NFTokenCreateOffer",
       Account: identity?.sub || "",
-      Owner: owner,
+      Owner: owner, //Owner should be present and different from Account field
       NFTokenID: tokenId,
       Amount: amount,
-      Flags: 1,
+      Flags: 0,
       Destination: broker_wallet,
     };
     if (!isValidXRPAddress(identity?.sub)) {
