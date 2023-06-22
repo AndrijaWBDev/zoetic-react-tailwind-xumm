@@ -994,9 +994,9 @@ export function App() {
   };
 
   const doBrokerSale = async () => {
-    const standby_wallet = "rMMY2ihCZHZ1fhzkQS11cvFf2iNN1fvP1Z"; //galerry
+    const standby_wallet = "rMMY2ihCZHZ1fhzkQS11cvFf2iNN1fvP1Z"; //crystal
     const operational_wallet = "rLazAHHqs35v9Cr4QiAkVUJz8k3cnKpHsc"; //monster
-    const broker_wallet = "rH9SruHkvesfgEGH2yYWqsFt6N1KYztChH"; //crystal - broker
+    const broker_wallet = "rH9SruHkvesfgEGH2yYWqsFt6N1KYztChH"; //gallery - broker
 
     const client = await connectClient();
 
@@ -1032,7 +1032,9 @@ export function App() {
     }
 
     let latestSellOfferIdx = nftSellOffers.result.offers[0].nft_offer_index;
-    let latestBuyOfferIdx = nftBuyOffers.result.offers[0].nft_offer_index;
+    let offers = nftBuyOffers.result.offers;
+    offers.sort((a, b) => Number(a.amount) - Number(b.amount));
+    let latestBuyOfferIdx = offers[0].nft_offer_index;
 
     // Prepare transaction -------------------------------------------------------
     const transactionBlob = {
