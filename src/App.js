@@ -978,7 +978,7 @@ export function App() {
       NFTokenID: tokenId,
       Amount: amount,
       Flags: 0,
-      Destination: broker_wallet,
+      // Destination: broker_wallet,
     };
     if (!isValidXRPAddress(identity?.sub)) {
       setError("Invalid connected address");
