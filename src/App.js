@@ -529,7 +529,7 @@ export function App() {
   const [tokenId, setTokenId] = useState("0");
   const [amount, setAmount] = useState(1000000);
   const [tokenOfferIndex, setOfferIndex] = useState("0");
-  const [owner, setOwner] = useState(0);
+  const [owner, setOwner] = useState("0");
   const [brokerBuyOfferIndex, setBrokerBuyOfferIndex] = useState("0");
   const [brokerSellOfferIndex, setBrokerSellOfferIndex] = useState("0");
   const [brokerFee, setBrokerFee] = useState(0);
@@ -976,7 +976,7 @@ export function App() {
       Owner: owner,
       NFTokenID: tokenId,
       Amount: amount,
-      Flags: parseInt(flags),
+      Flags: 1,
     };
     if (!isValidXRPAddress(identity?.sub)) {
       setError("Invalid connected address");
